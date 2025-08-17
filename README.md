@@ -1,4 +1,3 @@
-Dragon Nest Enhancement Simulator - 龍之谷強化模擬器
 這是一個《龍之谷》裝備強化模擬器。專為希望在不消耗遊戲內資源的情況下，體驗裝備強化快感的玩家所設計。
 
 This is a visual enhancement simulator for the game "Dragon Nest". It's designed for players who want to experience the thrill of gear enhancement without spending in-game resources.
