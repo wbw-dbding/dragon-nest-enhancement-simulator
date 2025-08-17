@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>龍之谷　裝備強化模擬器V1.1</title>
+    <title>龍之谷　裝備強化模擬器V1.3</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -143,7 +143,7 @@
         <p class="absolute top-3 left-4 text-L text-gray-400">作者：雷神之錘－蘋果咬一口</p>
         
         <header class="text-center pt-4">
-            <h1 class="text-3xl md:text-4xl font-bold text-yellow-400 tracking-wider">龍之谷　裝備強化模擬器V1.1</h1>
+            <h1 class="text-3xl md:text-4xl font-bold text-yellow-400 tracking-wider">龍之谷　裝備強化模擬器V1.3</h1>
             <p class="text-gray-400 mt-2">點選一件裝備，開始你的強化之路</p>
         </header>
 
@@ -154,7 +154,7 @@
                 <div id="left-gear-panel" class="space-y-3 transition-opacity"></div>
                 <div class="hidden md:flex flex-col items-center justify-center space-y-4 p-4 bg-gray-900/50 rounded-xl">
                     <div id="mannequin-display" class="w-full h-64 flex items-center justify-center"></div>
-                    <div class="grid grid-cols-2 gap-2 w-full">
+                    <div class="flex flex-col gap-2 w-full">
                         <button data-class="warrior" class="class-selector w-full p-2 rounded-md bg-gray-700 hover:bg-yellow-500 hover:text-black transition-colors">戰士</button>
                         <button data-class="archer" class="class-selector w-full p-2 rounded-md bg-gray-700 hover:bg-yellow-500 hover:text-black transition-colors">弓箭手</button>
                         <button data-class="sorceress" class="class-selector w-full p-2 rounded-md bg-gray-700 hover:bg-yellow-500 hover:text-black transition-colors">法師</button>
@@ -271,32 +271,77 @@
             cleric: `<svg class="w-48 h-48 text-gray-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-12h2v4h4v2h-4v4h-2v-4H7v-2h4v-4z"/></svg>`
         };
         const GEAR_ICONS = {
-            head: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M20.6,14.2c-0.8-1-1.2-2.3-1.2-3.6V8.4c0-3.3-2.2-6.2-5.4-6.2S8.6,5.1,8.6,8.4v2.2c0,1.3-0.4,2.6-1.2,3.6 C6.6,15.1,6,16.5,6,18v0.8c0,1.1,0.9,2,2,2h8c1.1,0,2-0.9,2-2V18C18,16.5,17.4,15.1,16.6,14.2z" /></svg>`,
-            body: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12,3L6,4.5v5.7c0,4.8,5.1,9.3,6,9.3s6-4.5,6-9.3V4.5L12,3z M12,17.8c-0.6,0-4-3.1-4-7.6V6.3l4-1.2l4,1.2v3.9 C16,14.7,12.6,17.8,12,17.8z" /></svg>`,
-            pants: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8,2v20h2V12h4v10h2V2H8z" /></svg>`,
-            gloves: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.9,8.4c0-2.8-2.3-5.1-5.1-5.1S6.6,5.6,6.6,8.4v4.2c0,2.8,2.3,5.1,5.1,5.1s5.1-2.3,5.1-5.1V8.4z M15.4,12.6 c0,2-1.6,3.6-3.6,3.6s-3.6-1.6-3.6-3.6V8.4c0-2,1.6-3.6,3.6-3.6s3.6,1.6,3.6,3.6V12.6z" /></svg>`,
-            boots: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18,21H8c-1.1,0-2-0.9-2-2V11c0-1.1,0.9-2,2-2h10v12H18z M10,11v8 M14,11v8" /></svg>`,
-            ring1: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12,4c-4.4,0-8,3.6-8,8s3.6,8,8,8s8-3.6,8-8S16.4,4,12,4z M12,18c-3.3,0-6-2.7-6-6s2.7-6,6-6s6,2.7,6,6S15.3,18,12,18z M12,9l-2,3l2,3l2-3L12,9z" /></svg>`,
-            ring2: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12,4c-4.4,0-8,3.6-8,8s3.6,8,8,8s8-3.6,8-8S16.4,4,12,4z M12,18c-3.3,0-6-2.7-6-6s2.7-6,6-6s6,2.7,6,6S15.3,18,12,18z M12,9l-2,3l2,3l2-3L12,9z" /></svg>`,
-            necklace: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4,9c0-4.4,3.6-8,8-8s8,3.6,8,8c0,2.1-0.8,4-2.2,5.5L12,22l-5.8-7.5C4.8,13,4,11.1,4,9z M12,12c-1.7,0-3-1.3-3-3s1.3-3,3-3s3,1.3,3,3S13.7,12,12,12z" /></svg>`,
-            earring: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c0.8,0,1.5-0.1,2.2-0.3 M12,6c-3.3,0-6,2.7-6,6s2.7,6,6,6" /></svg>`,
-            'main-weapon': `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21,3L3,21 M16,3h2v2h-2V3z M19,6h2v2h-2V6z M6,19H4v-2h2V19z M9,16H7v-2h2V16z M12,13l-3,3l-1.4-1.4l3-3L12,13z M18,7l-1.4-1.4l-7.1,7.1L11,14L18,7z" /></svg>`,
-            'sub-weapon': `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12,2L4,5v6c0,5,8,10,8,10s8-5,8-10V5L12,2z" /></svg>`
+            warrior: {
+                head: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M20.6,14.2c-0.8-1-1.2-2.3-1.2-3.6V8.4c0-3.3-2.2-6.2-5.4-6.2S8.6,5.1,8.6,8.4v2.2c0,1.3-0.4,2.6-1.2,3.6 C6.6,15.1,6,16.5,6,18v0.8c0,1.1,0.9,2,2,2h8c1.1,0,2-0.9,2-2V18C18,16.5,17.4,15.1,16.6,14.2z" /></svg>`,
+                body: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12,3L6,4.5v5.7c0,4.8,5.1,9.3,6,9.3s6-4.5,6-9.3V4.5L12,3z M12,17.8c-0.6,0-4-3.1-4-7.6V6.3l4-1.2l4,1.2v3.9 C16,14.7,12.6,17.8,12,17.8z" /></svg>`,
+                pants: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8,2v20h2V12h4v10h2V2H8z" /></svg>`,
+                gloves: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.9,8.4c0-2.8-2.3-5.1-5.1-5.1S6.6,5.6,6.6,8.4v4.2c0,2.8,2.3,5.1,5.1,5.1s5.1-2.3,5.1-5.1V8.4z M15.4,12.6 c0,2-1.6,3.6-3.6,3.6s-3.6-1.6-3.6-3.6V8.4c0-2,1.6-3.6,3.6-3.6s3.6,1.6,3.6,3.6V12.6z" /></svg>`,
+                boots: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18,21H8c-1.1,0-2-0.9-2-2V11c0-1.1,0.9-2,2-2h10v12H18z M10,11v8 M14,11v8" /></svg>`,
+                ring1: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12,4c-4.4,0-8,3.6-8,8s3.6,8,8,8s8-3.6,8-8S16.4,4,12,4z M12,18c-3.3,0-6-2.7-6-6s2.7-6,6-6s6,2.7,6,6S15.3,18,12,18z M12,9l-2,3l2,3l2-3L12,9z" /></svg>`,
+                ring2: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12,4c-4.4,0-8,3.6-8,8s3.6,8,8,8s8-3.6,8-8S16.4,4,12,4z M12,18c-3.3,0-6-2.7-6-6s2.7-6,6-6s6,2.7,6,6S15.3,18,12,18z M12,9l-2,3l2,3l2-3L12,9z" /></svg>`,
+                necklace: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4,9c0-4.4,3.6-8,8-8s8,3.6,8,8c0,2.1-0.8,4-2.2,5.5L12,22l-5.8-7.5C4.8,13,4,11.1,4,9z M12,12c-1.7,0-3-1.3-3-3s1.3-3,3-3s3,1.3,3,3S13.7,12,12,12z" /></svg>`,
+                earring: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c0.8,0,1.5-0.1,2.2-0.3 M12,6c-3.3,0-6,2.7-6,6s2.7,6,6,6" /></svg>`,
+                'main-weapon': `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21,3L3,21 M16,3h2v2h-2V3z M19,6h2v2h-2V6z M6,19H4v-2h2V19z M9,16H7v-2h2V16z M12,13l-3,3l-1.4-1.4l3-3L12,13z M18,7l-1.4-1.4l-7.1,7.1L11,14L18,7z" /></svg>`,
+                'sub-weapon': `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12,2L4,5v6c0,5,8,10,8,10s8-5,8-10V5L12,2z" /></svg>`
+            },
+            archer: {
+                head: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 14v-4c0-2.2 1.8-4 4-4h8c2.2 0 4 1.8 4 4v4M12 14l-4 8h8l-4-8z" /></svg>`,
+                body: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 2L5 7v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7l-4-5H9zM5 7h14" /></svg>`,
+                pants: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8 3v18h3V11h2v10h3V3H8z" /></svg>`,
+                gloves: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17.5 16V8c0-2.2-1.8-4-4-4h-3c-2.2 0-4 1.8-4 4v8c0 2.2 1.8 4 4 4h3c2.2 0 4-1.8 4-4z" /></svg>`,
+                boots: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 21H8c-1.1 0-2-.9-2-2v-8c0-1.1.9-2 2-2h8l2 4v6c0 1.1-.9 2-2 2z" /></svg>`,
+                ring1: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12,4c-4.4,0-8,3.6-8,8s3.6,8,8,8s8-3.6,8-8S16.4,4,12,4z M12,18c-3.3,0-6-2.7-6-6s2.7-6,6-6s6,2.7,6,6S15.3,18,12,18z M12,9l-2,3l2,3l2-3L12,9z" /></svg>`,
+                ring2: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12,4c-4.4,0-8,3.6-8,8s3.6,8,8,8s8-3.6,8-8S16.4,4,12,4z M12,18c-3.3,0-6-2.7-6-6s2.7-6,6-6s6,2.7,6,6S15.3,18,12,18z M12,9l-2,3l2,3l2-3L12,9z" /></svg>`,
+                necklace: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4,9c0-4.4,3.6-8,8-8s8,3.6,8,8c0,2.1-0.8,4-2.2,5.5L12,22l-5.8-7.5C4.8,13,4,11.1,4,9z M12,12c-1.7,0-3-1.3-3-3s1.3-3,3-3s3,1.3,3,3S13.7,12,12,12z" /></svg>`,
+                earring: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c0.8,0,1.5-0.1,2.2-0.3 M12,6c-3.3,0-6,2.7-6,6s2.7,6,6,6" /></svg>`,
+                'main-weapon': `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12h18M12 3v18M18 6l-6 6-6-6M6 18l6-6 6 6" /></svg>`,
+                'sub-weapon': `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>`
+            },
+            sorceress: {
+                head: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2L3 8v8l9 6 9-6V8L12 2zM3 8l9 6 9-6M12 22V14" /></svg>`,
+                body: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2L4 6v12h16V6L12 2zM4 6l8 5 8-5M12 21V11" /></svg>`,
+                pants: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 3v18h12V3L12 9 6 3z" /></svg>`,
+                gloves: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 22V12M8 12l4-4 4 4M12 2L8 6v6h8V6L12 2z" /></svg>`,
+                boots: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21V9c0-2.2 1.8-4 4-4h2c2.2 0 4 1.8 4 4v12H7z" /></svg>`,
+                ring1: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12,4c-4.4,0-8,3.6-8,8s3.6,8,8,8s8-3.6,8-8S16.4,4,12,4z M12,18c-3.3,0-6-2.7-6-6s2.7-6,6-6s6,2.7,6,6S15.3,18,12,18z M12,9l-2,3l2,3l2-3L12,9z" /></svg>`,
+                ring2: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12,4c-4.4,0-8,3.6-8,8s3.6,8,8,8s8-3.6,8-8S16.4,4,12,4z M12,18c-3.3,0-6-2.7-6-6s2.7-6,6-6s6,2.7,6,6S15.3,18,12,18z M12,9l-2,3l2,3l2-3L12,9z" /></svg>`,
+                necklace: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4,9c0-4.4,3.6-8,8-8s8,3.6,8,8c0,2.1-0.8,4-2.2,5.5L12,22l-5.8-7.5C4.8,13,4,11.1,4,9z M12,12c-1.7,0-3-1.3-3-3s1.3-3,3-3s3,1.3,3,3S13.7,12,12,12z" /></svg>`,
+                earring: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c0.8,0,1.5-0.1,2.2-0.3 M12,6c-3.3,0-6,2.7-6,6s2.7,6,6,6" /></svg>`,
+                'main-weapon': `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12h18M12 3v18" /></svg>`,
+                'sub-weapon': `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2a10 10 0 100 20 10 10 0 000-20z" /></svg>`
+            },
+            cleric: {
+                head: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2a5 5 0 015 5v2a5 5 0 01-10 0V7a5 5 0 015-5zM4 12h16v8a2 2 0 01-2 2H6a2 2 0 01-2-2v-8z" /></svg>`,
+                body: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 4h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2zM12 8v8M8 12h8" /></svg>`,
+                pants: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8 2v20h8V2H8zM12 2v20" /></svg>`,
+                gloves: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M7 12.5a5.5 5.5 0 1111 0v5a2 2 0 01-2 2H9a2 2 0 01-2-2v-5z" /></svg>`,
+                boots: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M20 21H4a2 2 0 01-2-2V9a2 2 0 012-2h16a2 2 0 012 2v10a2 2 0 01-2 2z" /></svg>`,
+                ring1: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12,4c-4.4,0-8,3.6-8,8s3.6,8,8,8s8-3.6,8-8S16.4,4,12,4z M12,18c-3.3,0-6-2.7-6-6s2.7-6,6-6s6,2.7,6,6S15.3,18,12,18z M12,9l-2,3l2,3l2-3L12,9z" /></svg>`,
+                ring2: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12,4c-4.4,0-8,3.6-8,8s3.6,8,8,8s8-3.6,8-8S16.4,4,12,4z M12,18c-3.3,0-6-2.7-6-6s2.7-6,6-6s6,2.7,6,6S15.3,18,12,18z M12,9l-2,3l2,3l2-3L12,9z" /></svg>`,
+                necklace: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4,9c0-4.4,3.6-8,8-8s8,3.6,8,8c0,2.1-0.8,4-2.2,5.5L12,22l-5.8-7.5C4.8,13,4,11.1,4,9z M12,12c-1.7,0-3-1.3-3-3s1.3-3,3-3s3,1.3,3,3S13.7,12,12,12z" /></svg>`,
+                earring: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c0.8,0,1.5-0.1,2.2-0.3 M12,6c-3.3,0-6,2.7-6,6s2.7,6,6,6" /></svg>`,
+                'main-weapon': `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2v20M2 12h20" /></svg>`,
+                'sub-weapon': `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h18v18H3z" /></svg>`
+            }
         };
 
         // --- Game State ---
         let gearState = {};
+        let currentClass = 'warrior';
         let selectedItemId = GEAR_SETUP.left[0].id;
         let isAutoEnhancing = false;
 
         // --- Functions ---
         function initializeState() {
-            ALL_GEAR_IDS.forEach(id => {
-                gearState[id] = { level: 0, charge: 0.0, failures: 0 };
+            Object.keys(CLASS_SVGS).forEach(className => {
+                gearState[className] = {};
+                ALL_GEAR_IDS.forEach(id => {
+                    gearState[className][id] = { level: 0, charge: 0.0, failures: 0 };
+                });
             });
         }
 
-        function createGearItem(item) {
+        function createGearItem(item, className) {
             const itemEl = document.createElement('div');
             itemEl.id = `item-${item.id}`;
             itemEl.dataset.itemId = item.id;
@@ -308,7 +353,7 @@
 
             const iconContainer = document.createElement('div');
             iconContainer.id = `icon-${item.id}`;
-            iconContainer.innerHTML = GEAR_ICONS[item.id] || '';
+            iconContainer.innerHTML = GEAR_ICONS[className][item.id] || '';
             iconContainer.className = 'mr-2 flex-shrink-0';
             
             const nameAndLevelContainer = document.createElement('div');
@@ -344,12 +389,12 @@
             return itemEl;
         }
 
-        function setupGearPanels() {
+        function setupGearPanels(className) {
             leftGearPanel.innerHTML = '';
-            GEAR_SETUP.left.forEach(item => leftGearPanel.appendChild(createGearItem(item)));
+            GEAR_SETUP.left.forEach(item => leftGearPanel.appendChild(createGearItem(item, className)));
 
             rightGearPanel.innerHTML = '';
-            GEAR_SETUP.right.forEach(item => rightGearPanel.appendChild(createGearItem(item)));
+            GEAR_SETUP.right.forEach(item => rightGearPanel.appendChild(createGearItem(item, className)));
         }
 
         function setupMannequin() {
@@ -361,10 +406,10 @@
                 svgContainer.classList.add('hidden');
                 mannequinDisplay.appendChild(svgContainer);
             });
-            switchClass('warrior');
         }
 
         function switchClass(className) {
+            currentClass = className;
             Object.keys(CLASS_SVGS).forEach(key => {
                 document.getElementById(`class-svg-${key}`).classList.add('hidden');
             });
@@ -372,6 +417,8 @@
             classSelectors.forEach(selector => {
                 selector.classList.toggle('active', selector.dataset.class === className);
             });
+            setupGearPanels(className);
+            updateUI();
         }
         
         function getLevelColorClass(level) {
@@ -392,7 +439,7 @@
 
         function updateUI() {
             ALL_GEAR_IDS.forEach(id => {
-                const item = gearState[id];
+                const item = gearState[currentClass][id];
                 const itemEl = document.getElementById(`item-${id}`);
                 const levelEl = document.getElementById(`level-${id}`);
                 levelEl.textContent = `+${item.level}`;
@@ -406,7 +453,7 @@
                 itemEl.classList.toggle('selected', id === selectedItemId);
             });
 
-            const selectedItem = gearState[selectedItemId];
+            const selectedItem = gearState[currentClass][selectedItemId];
             const selectedItemInfo = [...GEAR_SETUP.left, ...GEAR_SETUP.right].find(g => g.id === selectedItemId);
             selectedItemNameEl.textContent = selectedItemInfo.name;
             chargeInfoEl.classList.remove('text-yellow-400', 'font-bold');
@@ -479,7 +526,7 @@
         }
 
         function handleEnhance() {
-            const itemToEnhance = gearState[selectedItemId];
+            const itemToEnhance = gearState[currentClass][selectedItemId];
             if (itemToEnhance.level >= MAX_LEVEL) return;
 
             const targetLevel = itemToEnhance.level + 1;
@@ -503,7 +550,7 @@
                 logMessage(`[成功] 恭喜！[${itemName}] 強化至 +${targetLevel}！`, 'success');
             } else {
                 success = false;
-                const chargeGained = baseRate * 0.6; 
+                const chargeGained = actualRate * 0.77;
                 itemToEnhance.charge += chargeGained;
                 itemToEnhance.failures++;
                 logMessage(logMsg, 'info');
@@ -536,7 +583,7 @@
 
             if (target.matches('.individual-reset-btn')) {
                 const itemName = [...GEAR_SETUP.left, ...GEAR_SETUP.right].find(g => g.id === itemId).name;
-                gearState[itemId] = { level: 0, charge: 0, failures: 0 };
+                gearState[currentClass][itemId] = { level: 0, charge: 0, failures: 0 };
                 logMessage(`[${itemName}] 已重置為 +0`, 'info');
             } else {
                 selectedItemId = itemId;
@@ -545,16 +592,18 @@
         }
 
         function handleResetAll() {
-            initializeState();
-            logMessage('所有裝備已重置為 +0', 'info');
+            ALL_GEAR_IDS.forEach(id => {
+                gearState[currentClass][id] = { level: 0, charge: 0.0, failures: 0 };
+            });
+            logMessage(`[${currentClass}] 所有裝備已重置為 +0`, 'info');
             updateUI();
         }
 
         function handleSetAllPlus8() {
             ALL_GEAR_IDS.forEach(id => {
-                gearState[id] = { level: 8, charge: 0, failures: 0 };
+                gearState[currentClass][id] = { level: 8, charge: 0, failures: 0 };
             });
-            logMessage('所有裝備已設定為 +8', 'info');
+            logMessage(`[${currentClass}] 所有裝備已設定為 +8`, 'info');
             updateUI();
         }
 
@@ -584,13 +633,13 @@
             const itemName = [...GEAR_SETUP.left, ...GEAR_SETUP.right].find(g => g.id === selectedItemId).name;
             logMessage(`[${itemName}] 開始自動強化至 +${targetLevel}`, 'info');
 
-            while (isAutoEnhancing && gearState[selectedItemId].level < targetLevel && gearState[selectedItemId].level < MAX_LEVEL) {
+            while (isAutoEnhancing && gearState[currentClass][selectedItemId].level < targetLevel && gearState[currentClass][selectedItemId].level < MAX_LEVEL) {
                 handleEnhance();
                 await new Promise(resolve => setTimeout(resolve, 850)); // Delay slightly longer than animation
             }
 
-            if (gearState[selectedItemId].level >= targetLevel) {
-                logMessage(`[${itemName}] 自動強化成功！已達到 +${gearState[selectedItemId].level}`, 'success');
+            if (gearState[currentClass][selectedItemId].level >= targetLevel) {
+                logMessage(`[${itemName}] 自動強化成功！已達到 +${gearState[currentClass][selectedItemId].level}`, 'success');
             } else if (!isAutoEnhancing) {
                 logMessage(`[${itemName}] 自動強化已手動停止。`, 'info');
             }
@@ -609,9 +658,8 @@
         // --- Initial Load ---
         window.onload = () => {
             initializeState();
-            setupGearPanels();
             setupMannequin();
-            updateUI();
+            switchClass('warrior'); // This will setup panels and update UI
             
             enhanceButton.addEventListener('click', handleEnhance);
             resetButton.addEventListener('click', handleResetAll);
